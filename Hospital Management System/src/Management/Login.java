@@ -3,11 +3,16 @@ package Management;
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.ResultSet;
 
-public class Login extends JFrame {
+public class Login extends JFrame implements ActionListener {
     JTextField textField;
     JPasswordField passwordField;
-
+    JButton loginButton;// Declare loginButton as an instance variable
+    JLabel passwordLabel;
+    JLabel usernameLabel;
     Login() {
         getContentPane().setBackground(new Color(204, 214, 235));
         setSize(750, 300);
@@ -15,7 +20,7 @@ public class Login extends JFrame {
         setLocationRelativeTo(null);
         setLayout(null);
 
-        JLabel usernameLabel = new JLabel("Username");
+         usernameLabel = new JLabel("Username");
         usernameLabel.setBounds(40, 30, 150, 30);
         usernameLabel.setFont(new Font("Poppins", Font.BOLD, 22));
         add(usernameLabel);
@@ -27,7 +32,7 @@ public class Login extends JFrame {
         textField.setBorder(myBorder);
         add(textField);
 
-        JLabel passwordLabel = new JLabel("Password");
+         passwordLabel = new JLabel("Password");
         passwordLabel.setBounds(40, 80, 150, 30);
         passwordLabel.setFont(new Font("Poppins", Font.BOLD, 22));
         add(passwordLabel);
@@ -38,11 +43,12 @@ public class Login extends JFrame {
         passwordField.setBorder(myBorder);
         add(passwordField);
 
-        JButton loginButton = new JButton("Login");
+        loginButton = new JButton("Login"); // Now using the instance variable
         loginButton.setBounds(120,150, 200, 35);
         loginButton.setFont(new Font("Poppins", Font.BOLD, 18));
         loginButton.setBackground(new Color(70, 130, 180));
         loginButton.setForeground(Color.WHITE);
+        loginButton.addActionListener(this);
         add(loginButton);
 
         // Fixed image loading - removed String.valueOf()
@@ -59,4 +65,31 @@ public class Login extends JFrame {
     public static void main(String[] args) {
         SwingUtilities.invokeLater(Login::new);
     }
-}
+
+    @Override
+    public void actionPerformed(ActionEvent actionEvent) {
+        if(actionEvent.getSource() == loginButton){
+            try{
+                Conn c = new Conn();
+                String user = textField.getText();  // Fixed: get from textField
+                String pass = new String(passwordField.getPassword());  // Fixed: get from passwordField
+
+                String q = "select * from login where ID = '"+user+"' and PW = '"+pass+"'";
+                ResultSet resultset = c.statement.executeQuery(q);
+
+                if(resultset.next()){
+                    setVisible(false);
+                    new Reception();
+
+                }
+                else{
+                    JOptionPane.showMessageDialog(null,"Invalid username or password");
+                }
+            }
+            catch(Exception E){
+                E.printStackTrace();
+                JOptionPane.showMessageDialog(null,"Database connection error");
+            }
+        }
+    }
+    }
