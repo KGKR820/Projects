@@ -67,7 +67,7 @@ public class Reception extends JFrame {
         mainPanel.add(createButton("👥 All Employee Info"));
         mainPanel.add(createButton("📄 Patient Info"));
         mainPanel.add(createButton("🚶 Patient Discharge"));
-        mainPanel.add(createButton("✏️ Update Patient"));
+        mainPanel.add(createButton("✏️ Update Patient Details"));
         mainPanel.add(createButton("🚑 Ambulance"));
         mainPanel.add(createButton("🔍 Search Room"));
 
@@ -122,6 +122,7 @@ public class Reception extends JFrame {
 
 
             try {
+
                 // Launch the appropriate module class based on the button text
                 if (text.equals("➕ Add New Patient")) {
                     new AddPatient().setVisible(true);

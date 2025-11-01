@@ -16,7 +16,7 @@ public class Conn {
             connection = DriverManager.getConnection(
                     "jdbc:mariadb://localhost:3306/HMS",
                     "hospital_admin",  // new username
-                    "hospital123"      // new password
+                    "820939"      // new password
             );
             statement = connection.createStatement();
             System.out.println("Database connected successfully with application user!");
