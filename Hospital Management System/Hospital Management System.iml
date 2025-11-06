@@ -8,5 +8,6 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="mariadb-java-client-3.5.6" level="project" />
+    <orderEntry type="library" name="ResultSet2xml" level="project" />
   </component>
 </module>

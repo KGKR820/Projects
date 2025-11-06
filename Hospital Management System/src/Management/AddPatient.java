@@ -9,23 +9,20 @@ import java.sql.ResultSet;
 
 public class AddPatient extends JFrame implements ActionListener {
 
-    // --- Global Components ---
     JTextField tfNumber, tfName, tfDisease, tfDeposit;
     JComboBox<String> cId, cRoom;
     JRadioButton rMale, rFemale;
     ButtonGroup genderGroup;
     JLabel labelTime;
-    JButton bAdd, bBack; // Initialized early
+    JButton bAdd, bBack;
 
-    // --- Colors & Fonts matching Reception.java ---
     private static final Color FORM_BG = Color.WHITE;
-    private static final Color BUTTON_BG = new Color(240, 248, 255); // Alice Blue
-    private static final Color HEADER_BG = new Color(70, 130, 180); // Steel Blue
+    private static final Color BUTTON_BG = new Color(240, 248, 255);
+    private static final Color HEADER_BG = new Color(70, 130, 180);
     private static final String FONT_NAME = "Arial";
 
     public AddPatient() {
 
-        // --- BUTTON INITIALIZATION (FIX for NullPointerException) ---
         bAdd = new JButton("➕ Add Patient");
         styleButton(bAdd);
         bAdd.addActionListener(this);
@@ -34,17 +31,14 @@ public class AddPatient extends JFrame implements ActionListener {
         styleButton(bBack);
         bBack.addActionListener(this);
 
-        // --- Frame Setup ---
         setTitle("➕ Add New Patient Details");
         setSize(900, 650);
         setLayout(new BorderLayout());
         setLocationRelativeTo(null);
         getContentPane().setBackground(FORM_BG);
 
-        // ✨ FIX: Use EXIT_ON_CLOSE for the main window to terminate the JVM
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-        // --- Header Panel ---
         JPanel headerPanel = new JPanel();
         headerPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 20));
         headerPanel.setPreferredSize(new Dimension(1, 80));
@@ -56,7 +50,6 @@ public class AddPatient extends JFrame implements ActionListener {
         title.setForeground(Color.WHITE);
         headerPanel.add(title);
 
-        // --- Main Content Panel (Center) ---
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new GridBagLayout());
         mainPanel.setBackground(FORM_BG);
@@ -67,7 +60,6 @@ public class AddPatient extends JFrame implements ActionListener {
         gbc.insets = new Insets(10, 10, 10, 10);
         gbc.anchor = GridBagConstraints.WEST;
 
-        // 1. ID Proof
         gbc.gridx = 0; gbc.gridy = 0;
         mainPanel.add(createLabel("ID Proof:"), gbc);
         gbc.gridx = 1; gbc.gridy = 0;
@@ -76,7 +68,6 @@ public class AddPatient extends JFrame implements ActionListener {
         styleComponent(cId, 150);
         mainPanel.add(cId, gbc);
 
-        // 2. Number
         gbc.gridx = 0; gbc.gridy = 1;
         mainPanel.add(createLabel("ID Number:"), gbc);
         gbc.gridx = 1; gbc.gridy = 1;
@@ -84,7 +75,6 @@ public class AddPatient extends JFrame implements ActionListener {
         styleComponent(tfNumber, 150);
         mainPanel.add(tfNumber, gbc);
 
-        // 3. Name
         gbc.gridx = 0; gbc.gridy = 2;
         mainPanel.add(createLabel("Name:"), gbc);
         gbc.gridx = 1; gbc.gridy = 2;
@@ -92,7 +82,6 @@ public class AddPatient extends JFrame implements ActionListener {
         styleComponent(tfName, 150);
         mainPanel.add(tfName, gbc);
 
-        // 4. Gender
         gbc.gridx = 0; gbc.gridy = 3;
         mainPanel.add(createLabel("Gender:"), gbc);
         gbc.gridx = 1; gbc.gridy = 3;
@@ -113,7 +102,6 @@ public class AddPatient extends JFrame implements ActionListener {
 
         rMale.setSelected(true);
 
-        // 5. Disease
         gbc.gridx = 2; gbc.gridy = 0;
         mainPanel.add(createLabel("Disease/Problem:"), gbc);
         gbc.gridx = 3; gbc.gridy = 0;
@@ -121,7 +109,6 @@ public class AddPatient extends JFrame implements ActionListener {
         styleComponent(tfDisease, 150);
         mainPanel.add(tfDisease, gbc);
 
-        // 6. Room Number (Dynamically fetched from DB)
         gbc.gridx = 2; gbc.gridy = 1;
         mainPanel.add(createLabel("Room No.:"), gbc);
         gbc.gridx = 3; gbc.gridy = 1;
@@ -133,14 +120,12 @@ public class AddPatient extends JFrame implements ActionListener {
 
         mainPanel.add(cRoom, gbc);
 
-        // 7. Check-in Time
         gbc.gridx = 2; gbc.gridy = 2;
         mainPanel.add(createLabel("Check-in Time:"), gbc);
         gbc.gridx = 3; gbc.gridy = 2;
         labelTime = createValueLabel(new Date().toString());
         mainPanel.add(labelTime, gbc);
 
-        // 8. Deposit
         gbc.gridx = 2; gbc.gridy = 3;
         mainPanel.add(createLabel("Deposit:"), gbc);
         gbc.gridx = 3; gbc.gridy = 3;
@@ -148,7 +133,6 @@ public class AddPatient extends JFrame implements ActionListener {
         styleComponent(tfDeposit, 150);
         mainPanel.add(tfDeposit, gbc);
 
-        // --- Footer Panel for Buttons ---
         JPanel footerPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 50, 30));
         footerPanel.setPreferredSize(new Dimension(1, 100));
         footerPanel.setBackground(FORM_BG);
@@ -160,9 +144,6 @@ public class AddPatient extends JFrame implements ActionListener {
         setVisible(true);
     }
 
-    /**
-     * Helper method to fetch and populate available room numbers from the 'room' table.
-     */
     private void populateRoomList() {
         cRoom.removeAllItems();
         try {
@@ -186,12 +167,8 @@ public class AddPatient extends JFrame implements ActionListener {
         } catch (Exception e) {
             cRoom.addItem("Error Fetching Rooms");
             bAdd.setEnabled(false);
-            // e.printStackTrace(); // Keep for debugging
         }
     }
-
-    // ---------------------------------------------------------------------------------
-    // --- Helper Methods for Styling ---
 
     private JLabel createLabel(String text) {
         JLabel label = new JLabel(text);
@@ -235,7 +212,6 @@ public class AddPatient extends JFrame implements ActionListener {
         button.setFocusPainted(false);
         button.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
 
-        // Add hover effect
         button.addMouseListener(new MouseAdapter() {
             public void mouseEntered(MouseEvent e) {
                 button.setBackground(new Color(200, 230, 255));
@@ -246,16 +222,11 @@ public class AddPatient extends JFrame implements ActionListener {
         });
     }
 
-    // ---------------------------------------------------------------------------------
-    // --- Action Listener Implementation ---
-
     @Override
     public void actionPerformed(ActionEvent ae) {
         if (ae.getSource() == bBack) {
-            setVisible(false);
-            // new Reception().setVisible(true); // Assuming Reception class exists and handles its own closing logic
+            dispose();
         } else if (ae.getSource() == bAdd) {
-            // --- Collect Data ---
             String idType = (String) cId.getSelectedItem();
             String idNumber = tfNumber.getText();
             String patientName = tfName.getText();
@@ -265,25 +236,20 @@ public class AddPatient extends JFrame implements ActionListener {
             String checkinTime = labelTime.getText();
             String deposit = tfDeposit.getText();
 
-            // --- Validation ---
             if (idNumber.isEmpty() || patientName.isEmpty() || disease.isEmpty() || deposit.isEmpty() || gender.isEmpty() || roomNumber == null || roomNumber.contains("Error") || roomNumber.contains("No Rooms")) {
                 JOptionPane.showMessageDialog(this, "Please fill all fields, select a gender, and ensure a valid room is selected.", "Validation Error", JOptionPane.WARNING_MESSAGE);
                 return;
             }
 
-            // --- Database Insertion ---
             try {
                 Conn c = new Conn();
 
-                // 2. Prepare SQL INSERT query (q)
                 String q = "INSERT INTO patient_info (id, number, name, gender, disease, room_number, time, deposit) VALUES ('"
                         + idType + "', '" + idNumber + "', '" + patientName + "', '" + gender + "', '" + disease + "', '"
                         + roomNumber + "', '" + checkinTime + "', '" + deposit + "')";
 
-                // 3. Prepare SQL UPDATE query (q1) - To mark the selected room as 'Occupied'
                 String q1 = "UPDATE room SET available = 'Occupied' WHERE room_number = '" + roomNumber + "'";
 
-                // 4. Execute updates
                 c.statement.executeUpdate(q);
                 c.statement.executeUpdate(q1);
 
@@ -292,14 +258,12 @@ public class AddPatient extends JFrame implements ActionListener {
                         "Success",
                         JOptionPane.INFORMATION_MESSAGE);
 
-                // Clear fields after success
                 tfNumber.setText("");
                 tfName.setText("");
                 tfDisease.setText("");
                 tfDeposit.setText("");
                 genderGroup.clearSelection();
 
-                // Refresh the room list after the room status has changed
                 populateRoomList();
 
             } catch (SQLException e) {
