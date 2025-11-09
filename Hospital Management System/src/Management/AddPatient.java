@@ -268,7 +268,7 @@ public class AddPatient extends JFrame implements ActionListener {
 
             } catch (SQLException e) {
                 JOptionPane.showMessageDialog(this,
-                        "Database Error: Check if tables 'patient_info' and 'room' exist and data types are correct.\n" + e.getMessage(),
+                        "Database Error\n" + e.getMessage(),
                         "Database Error",
                         JOptionPane.ERROR_MESSAGE);
             } catch (Exception e) {

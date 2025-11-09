@@ -51,7 +51,6 @@ public class Login extends JFrame implements ActionListener {
         loginButton.addActionListener(this);
         add(loginButton);
 
-        // Fixed image loading - removed String.valueOf()
         ImageIcon imageIcon = new ImageIcon(ClassLoader.getSystemResource("Icons/Logo.jpg"));
         Image i1 = imageIcon.getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH);
         ImageIcon imageIcon1 = new ImageIcon(i1);

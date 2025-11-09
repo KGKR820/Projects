@@ -123,8 +123,7 @@ public class Reception extends JFrame {
                 setVisible(true);
                 String moduleName = text.replaceFirst("^[^\s]+\\s", "");
                 JOptionPane.showMessageDialog(this,
-                        "Error: The module for " + moduleName + " is not found. " +
-                                "Please implement the corresponding class in the 'Management' package.",
+                        "Error: The module for " + moduleName + " is not found. ",
                         "Module Missing", JOptionPane.ERROR_MESSAGE);
             }
         });
